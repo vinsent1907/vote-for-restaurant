@@ -36,7 +36,6 @@ class UserControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getAll() throws Exception {
-        // TODO check content yourself
         perform(MockMvcRequestBuilders.get(URL))
                 .andExpect(status().isOk())
                 .andDo(print())

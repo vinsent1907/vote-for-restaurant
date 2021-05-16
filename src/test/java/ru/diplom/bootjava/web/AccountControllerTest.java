@@ -68,7 +68,7 @@ class AccountControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
-                .andExpect(status().isCreated());//.isNoContent()
+                .andExpect(status().isCreated());
         UserTestUtil.assertEquals(updated, userRepository.findById(USER_ID).orElseThrow());
     }
 }
