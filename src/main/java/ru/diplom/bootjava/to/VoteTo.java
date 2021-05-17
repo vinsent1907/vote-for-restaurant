@@ -11,14 +11,12 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class VoteTo extends BaseTo implements Serializable {
-
+public class VoteTo {
     private LocalDate date;
     private Integer restaurantId;
     private Integer userId;
 
-    public VoteTo(Integer id, LocalDate date, Integer restaurantId, Integer userId) {
-        super(id);
+    public VoteTo(LocalDate date, Integer restaurantId, Integer userId) {
         this.date = date;
         this.restaurantId = restaurantId;
         this.userId = userId;

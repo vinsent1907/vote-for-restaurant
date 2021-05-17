@@ -15,11 +15,9 @@ Build a voting system for deciding where to have lunch.
 Each restaurant provides a new menu each day.
 
 ## Install
-Clone project:
 ```console
 git clone https://github.com/vinsent1907/vote-for-restaurant.git
 ```
-Deploy:
 ```console
 $ mvn clean package
 $ mvn install

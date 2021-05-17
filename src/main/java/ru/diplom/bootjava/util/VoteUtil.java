@@ -5,6 +5,6 @@ import ru.diplom.bootjava.to.VoteTo;
 
 public class VoteUtil {
     public static VoteTo asTo(Vote v) {
-        return new VoteTo(v.getId(), v.getDates(), v.getRestaurant().getId(), v.getUser().getId());
+        return new VoteTo(v.getDates(), v.getRestaurant().getId(), v.getUser().getId());
     }
 }

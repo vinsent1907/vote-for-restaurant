@@ -15,7 +15,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BaseTo implements Serializable {
-
     protected Integer id;
 
     @JsonIgnore

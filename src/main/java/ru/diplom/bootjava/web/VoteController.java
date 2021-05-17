@@ -80,7 +80,7 @@ public class VoteController {
                         .collect(Collectors.toList());
 
         return CollectionModel.of(votes,
-                linkTo(methodOn(RestaurantController.class).allToday()).withSelfRel());
+                linkTo(methodOn(VoteController.class).getAllToday()).withSelfRel());
     }
 
     @GetMapping(value = "/vote", produces = MediaTypes.HAL_JSON_VALUE)
