@@ -15,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString(callSuper = true)
-@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "restaurants_unique_name_idx")})
+@Table(name = "restaurants",
+        uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "restaurants_unique_name_idx")})
 public class Restaurant extends BaseEntity implements Serializable {
     @Column(name = "name", nullable = false)
     @NotEmpty

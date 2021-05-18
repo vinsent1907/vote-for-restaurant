@@ -22,7 +22,13 @@ git clone https://github.com/vinsent1907/vote-for-restaurant.git
 $ mvn clean package
 $ mvn install
 ```
-Note! You must have installed **JDK 15** and **Maven**.
+
+----
+
+**Note!** You must have installed **JDK 15** and **Maven**.
+
+----
+
 
 ### Authorization
 Use http basic authorization.
@@ -34,6 +40,13 @@ user    user@mail.com   password
 user2   user2@mail.com  password
 ```
 # API
+
+----
+
+**Note!** operations curl for Windows console
+
+----
+
 
 [comment]: <> (You can see full REST API documentation at [/api-docs]&#40;http://localhost:8080/swagger-ui/index.html&#41; after deploy.)
 [comment]: <> (Access to documentation allowed only for admin profile.)
@@ -55,13 +68,13 @@ user2   user2@mail.com  password
 #### get all restaurant:
 `curl -s -i http://localhost:8080/api/restaurants --user admin@mail.com:admin`
 
-#### create restaurant
+#### create a restaurant:
 `curl -i -X POST -H "Content-Type: application/json" -d "{\"name\": \"Late\"}" http://localhost:8080/api/restaurants/created --user admin@mail.com:admin`
 
 #### edit restaurant:
 `curl -i -X PUT -H "Content-Type: application/json" -d "{\"name\": \"Apelsino\"}" http://localhost:8080/api/restaurants/1 --user admin@mail.com:admin`
 
-#### deleted restaurant:
+#### a deleted restaurant:
 `curl -s -i -X DELETE http://localhost:8080/api/restaurants/1 --user user@mail.com:user --user admin@mail.com:admin`
 
 

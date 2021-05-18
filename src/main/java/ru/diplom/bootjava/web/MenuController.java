@@ -17,6 +17,7 @@ import ru.diplom.bootjava.repository.MenuRepository;
 import ru.diplom.bootjava.repository.RestaurantRepository;
 import ru.diplom.bootjava.util.ValidationUtil;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,7 +69,7 @@ public class MenuController {
     }
 
     @PostMapping(value = "/created", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityModel<Menu>> create(@RequestBody Menu menu, @PathVariable int restaurantId) {
+    public ResponseEntity<EntityModel<Menu>> create(@Valid @RequestBody Menu menu, @PathVariable int restaurantId) {
         log.info("create {}", menu);
         ValidationUtil.checkNew(menu);
         menu.setRestaurant(restaurantRepository.findById(restaurantId)
@@ -83,7 +84,7 @@ public class MenuController {
 
     @PutMapping(value = "/edit/{menuId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityModel<Menu>> update(@PathVariable int restaurantId, @PathVariable int menuId,
-                                                    @RequestBody Menu menu) {
+                                                   @Valid @RequestBody Menu menu) {
         log.info("update menu {} id = {}", menu, menuId);
         Menu oldMenu = menuRepository.findById(menuId)
                 .orElseThrow(() -> new NotFoundException("Menu with id = " + menuId + " not found"));

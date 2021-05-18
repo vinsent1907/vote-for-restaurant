@@ -15,12 +15,13 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "menu")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString(callSuper = true)
+@Table(name = "menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"dates", "description", "restaurant_id"},
+        name = "description_restaurant_dates_unique")})
 public class Menu extends BaseEntity implements Serializable {
     @Column(name = "dates")
     @NotNull
@@ -37,9 +38,8 @@ public class Menu extends BaseEntity implements Serializable {
     private int price;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "restaurant_id", nullable = false)
+    @JoinColumn(name = "restaurant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
     @JsonBackReference
     private Restaurant restaurant;
 }
