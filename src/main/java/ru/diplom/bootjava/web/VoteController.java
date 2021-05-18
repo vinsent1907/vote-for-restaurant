@@ -49,8 +49,8 @@ public class VoteController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<EntityModel<VoteTo>> vote(@AuthenticationPrincipal AuthUser authUser,
                                                     @RequestParam int restaurantId) {
-
         log.info("vote {} for the {} ", authUser, restaurantId);
+        checkingPossibilityVoting(STOP_TIME);
 
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException("Restaurant with id = " + restaurantId + " not found"));
@@ -60,7 +60,6 @@ public class VoteController {
         Vote vote = voteRepository.findByDatesAndUserId(LocalDate.now(), userId)
                 .orElse(new Vote(LocalDate.now(), authUser.getUser(), restaurant));
 
-        checkingPossibilityVoting(STOP_TIME);
         vote.setRestaurant(restaurant);
         EntityModel<VoteTo> entityModel = assembler.toModel(asTo(voteRepository.save(vote)));
 

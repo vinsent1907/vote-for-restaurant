@@ -32,13 +32,13 @@ $ mvn install
 
 ### Authorization
 Use http basic authorization.
-####credentials:
-```console
-name:   login:          password:
-admin   admin@mail.com  admin  
-user    user@mail.com   password
-user2   user2@mail.com  password
-```
+####Credentials:
+| name    | login           | password  |
+|---------|:----------------|:---------:|
+| admin   | admin@mail.com  | admin     |
+| user    | user@mail.com   | password  |
+| user2   |user2@mail.com   | password  |
+
 # API
 
 ----
