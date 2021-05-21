@@ -29,7 +29,8 @@ public class ValidationUtil {
 
     public static void checkingPossibilityVoting(LocalTime time) {
         if (LocalTime.now().isAfter(time))
-            throw new TimeException("You can vote up to " + time +  " o'clock. Voting is over for today");
+            throw new TimeException("You can change your voice up to "
+                    + time +  " o'clock." + " Today the voting result cannot be changed");
     }
 
     public static int checkNull(Integer id) {

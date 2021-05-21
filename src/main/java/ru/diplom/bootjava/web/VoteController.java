@@ -46,12 +46,9 @@ public class VoteController {
     private final VoteModelAssembler assembler;
 
     @PostMapping("/vote")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<EntityModel<VoteTo>> vote(@AuthenticationPrincipal AuthUser authUser,
                                                     @RequestParam int restaurantId) {
         log.info("vote {} for the {} ", authUser, restaurantId);
-        checkingPossibilityVoting(STOP_TIME);
-
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException("Restaurant with id = " + restaurantId + " not found"));
 
@@ -67,6 +64,15 @@ public class VoteController {
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
+
+    @PutMapping("/vote")
+    public ResponseEntity<EntityModel<VoteTo>> update(@AuthenticationPrincipal AuthUser authUser,
+                                                    @RequestParam int restaurantId) {
+        log.info("vote {} for the {} ", authUser, restaurantId);
+        checkingPossibilityVoting(STOP_TIME);
+       return vote(authUser, restaurantId);
+    }
+
 
     @GetMapping(value = "/today", produces = MediaTypes.HAL_JSON_VALUE)
     public CollectionModel<EntityModel<VoteTo>> getAllToday() {
@@ -85,7 +91,6 @@ public class VoteController {
     @GetMapping(value = "/vote", produces = MediaTypes.HAL_JSON_VALUE)
     public EntityModel<VoteTo> getCurrentToday(@AuthenticationPrincipal AuthUser authUser) {
         log.info("get vote {}", authUser);
-
         int userId = checkNull(authUser.getUser().getId());
         Vote vote = voteRepository.findByDatesAndUserId(LocalDate.now(), userId)
                 .orElseThrow(() -> new NotFoundException("You did not vote today"));

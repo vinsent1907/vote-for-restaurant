@@ -45,8 +45,10 @@ Use http basic authorization.
 
 **Note!** operations curl for Windows console
 
-----
+**Note!** The date must be in the ISO Date Format: yyyy-MM-dd  for example, "2000-10-31".
 
+
+----
 
 [comment]: <> (You can see full REST API documentation at [/api-docs]&#40;http://localhost:8080/swagger-ui/index.html&#41; after deploy.)
 [comment]: <> (Access to documentation allowed only for admin profile.)
@@ -101,6 +103,10 @@ Use http basic authorization.
 
 #### vote for the restaurant:
 `curl -s -i -X POST http://localhost:8080/api/votes/vote/?restaurantId=1 --user user@mail.com:user`
+
+#### edit vote for the restaurant:
+`curl -s -i -X PUT http://localhost:8080/api/votes/vote/?restaurantId=3 --user user@mail.com:user`
+
 
 #### get current user vote:
 `curl -s -i http://localhost:8080/api/votes/vote --user user@mail.com:user`

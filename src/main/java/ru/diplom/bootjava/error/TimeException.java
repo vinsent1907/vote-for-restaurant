@@ -7,6 +7,6 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.M
 
 public class TimeException extends AppException {
     public TimeException(String msg) {
-        super(HttpStatus.LOCKED, msg, ErrorAttributeOptions.of(MESSAGE));
+        super(HttpStatus.METHOD_NOT_ALLOWED, msg, ErrorAttributeOptions.of(MESSAGE));
     }
 }

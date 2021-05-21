@@ -80,5 +80,4 @@ public class AccountController {
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
-
 }
