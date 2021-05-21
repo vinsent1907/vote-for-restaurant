@@ -37,7 +37,7 @@ public class RestaurantController {
     @GetMapping(value = "/{restaurantId}", produces = MediaTypes.HAL_JSON_VALUE)
     public EntityModel<Restaurant> oneToday(@PathVariable Integer restaurantId) {
         log.info("get {}", restaurantId);
-        Restaurant restaurant = restaurantRepository.findByIdWithMenuAndDate(restaurantId, LocalDate.now())
+        Restaurant restaurant = restaurantRepository.findWithMenuByIdAndDate(restaurantId, LocalDate.now())
                 .orElseThrow(() -> new NotFoundException("Today restaurant with id = " + restaurantId + " not found"));
 
         return assembler.toModel(restaurant);
@@ -48,7 +48,7 @@ public class RestaurantController {
         log.info("get all restaurant today");
 
         List<EntityModel<Restaurant>> restaurants =
-                restaurantRepository.findAllWithMenuAndDate(LocalDate.now())
+                restaurantRepository.findAllWithMenuByDate(LocalDate.now())
                         .stream()
                         .map(assembler::toModel)
                         .collect(Collectors.toList());

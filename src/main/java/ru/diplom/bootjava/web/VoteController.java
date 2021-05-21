@@ -13,12 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.diplom.bootjava.AuthUser;
+import ru.diplom.bootjava.error.IllegalRequestDataException;
 import ru.diplom.bootjava.error.NotFoundException;
 import ru.diplom.bootjava.model.Restaurant;
 import ru.diplom.bootjava.model.Vote;
 import ru.diplom.bootjava.repository.RestaurantRepository;
 import ru.diplom.bootjava.repository.VoteRepository;
 import ru.diplom.bootjava.to.VoteTo;
+import ru.diplom.bootjava.util.ValidationUtil;
 import ru.diplom.bootjava.util.VoteUtil;
 import ru.diplom.bootjava.web.Assembler.VoteModelAssembler;
 
@@ -49,15 +51,14 @@ public class VoteController {
     public ResponseEntity<EntityModel<VoteTo>> vote(@AuthenticationPrincipal AuthUser authUser,
                                                     @RequestParam int restaurantId) {
         log.info("vote {} for the {} ", authUser, restaurantId);
+        int userId = checkNull(authUser.getUser().getId());
+         if(voteRepository.findByDatesAndUserId(LocalDate.now(), userId).isPresent()) {
+             throw  new IllegalRequestDataException("Vote must be new");
+         }
+
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException("Restaurant with id = " + restaurantId + " not found"));
-
-        int userId = checkNull(authUser.getUser().getId());
-
-        Vote vote = voteRepository.findByDatesAndUserId(LocalDate.now(), userId)
-                .orElse(new Vote(LocalDate.now(), authUser.getUser(), restaurant));
-
-        vote.setRestaurant(restaurant);
+        Vote vote = new Vote(LocalDate.now(), authUser.getUser(), restaurant);
         EntityModel<VoteTo> entityModel = assembler.toModel(asTo(voteRepository.save(vote)));
 
         return ResponseEntity
@@ -69,10 +70,23 @@ public class VoteController {
     public ResponseEntity<EntityModel<VoteTo>> update(@AuthenticationPrincipal AuthUser authUser,
                                                     @RequestParam int restaurantId) {
         log.info("vote {} for the {} ", authUser, restaurantId);
-        checkingPossibilityVoting(STOP_TIME);
-       return vote(authUser, restaurantId);
-    }
 
+        checkingPossibilityVoting(STOP_TIME);
+
+        int userId = checkNull(authUser.getUser().getId());
+         Vote newVote = voteRepository.findByDatesAndUserId(LocalDate.now(), userId)
+                 .orElseThrow(()->new NotFoundException("You didn't vote today"));
+
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new NotFoundException("Restaurant with id = " + restaurantId + " not found"));
+
+        newVote.setRestaurant(restaurant);
+        EntityModel<VoteTo> entityModel = assembler.toModel(asTo(voteRepository.save(newVote)));
+
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
+    }
 
     @GetMapping(value = "/today", produces = MediaTypes.HAL_JSON_VALUE)
     public CollectionModel<EntityModel<VoteTo>> getAllToday() {

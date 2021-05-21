@@ -25,5 +25,6 @@ VALUES (NOW(), 'RICE', '10000', '1'),
        (NOW(), 'SOUP', '15000', '3');
 
 INSERT INTO VOTE (DATES, RESTAURANT_ID, USER_ID)
-VALUES (NOW(), '1', '1'),
-       (NOW(), '3', '3');
+VALUES (NOW(), '3', '2'),
+       (NOW(), '3', '3'),
+       (NOW()-1, '3', '3');

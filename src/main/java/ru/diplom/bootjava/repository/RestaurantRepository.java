@@ -20,10 +20,10 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 
     @RestResource(rel = "by-date", path = "by-date")
     @Query("SELECT DISTINCT r FROM Restaurant r JOIN FETCH r.menu m WHERE m.date=:date ORDER BY r.name")
-    List<Restaurant> findAllWithMenuAndDate(LocalDate date);
+    List<Restaurant> findAllWithMenuByDate(LocalDate date);
 
     @RestResource(rel = "by-id&date", path = "by-id&date")
     @Query("SELECT DISTINCT r FROM Restaurant r JOIN FETCH r.menu m WHERE r.id=:restaurantId  AND m.date=:date ORDER BY r.name")
-    Optional<Restaurant> findByIdWithMenuAndDate(Integer restaurantId, LocalDate date);
+    Optional<Restaurant> findWithMenuByIdAndDate(Integer restaurantId, LocalDate date);
 
 }
