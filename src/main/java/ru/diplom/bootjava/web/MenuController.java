@@ -10,12 +10,12 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.diplom.bootjava.web.Assembler.MenuModelAssembler;
 import ru.diplom.bootjava.error.NotFoundException;
 import ru.diplom.bootjava.model.Menu;
 import ru.diplom.bootjava.repository.MenuRepository;
 import ru.diplom.bootjava.repository.RestaurantRepository;
 import ru.diplom.bootjava.util.ValidationUtil;
+import ru.diplom.bootjava.web.Assembler.MenuModelAssembler;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,7 +25,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api/restaurants/{restaurantId}/menus")
+@RequestMapping(value = "/api/restaurants/{restaurantId}/menu")
 @AllArgsConstructor
 @Slf4j
 @Tag(name = "Menu Controller 2end point")
@@ -47,17 +47,19 @@ public class MenuController {
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
     public CollectionModel<EntityModel<Menu>> getAll(@PathVariable int restaurantId) {
         log.info("get all menu for restaurant id = {}", restaurantId);
-        List<EntityModel<Menu>> votes =
-                menuRepository.findAllByRestaurantIdOrderByDescriptionDesc(restaurantId)
-                        .stream()
-                        .map(assembler::toModel)
-                        .collect(Collectors.toList());
+        List<Menu> menus = menuRepository.findAllByRestaurantIdOrderByDescriptionDesc(restaurantId);
+        if (menus.isEmpty()) throw new NotFoundException("restaurant with id = " + restaurantId + " not found");
 
-        return CollectionModel.of(votes,
+        List<EntityModel<Menu>> entityModels = menus
+                .stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(entityModels,
                 linkTo(methodOn(MenuController.class).getAll(restaurantId)).withSelfRel());
     }
 
-    @DeleteMapping("/delete/{menuId}")
+    @DeleteMapping("/{menuId}")
     public ResponseEntity<Menu> delete(@PathVariable int restaurantId, @PathVariable int menuId) {
         log.info("delete menu id = {}", menuId);
         menuRepository.findByRestaurantIdAndId(restaurantId, menuId)
@@ -68,7 +70,7 @@ public class MenuController {
 
     }
 
-    @PostMapping(value = "/created", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityModel<Menu>> create(@Valid @RequestBody Menu menu, @PathVariable int restaurantId) {
         log.info("create {}", menu);
         ValidationUtil.checkNew(menu);
@@ -82,9 +84,9 @@ public class MenuController {
                 .body(entityModel);
     }
 
-    @PutMapping(value = "/edit/{menuId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{menuId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityModel<Menu>> update(@PathVariable int restaurantId, @PathVariable int menuId,
-                                                   @Valid @RequestBody Menu menu) {
+                                                    @Valid @RequestBody Menu menu) {
         log.info("update menu {} id = {}", menu, menuId);
         Menu oldMenu = menuRepository.findById(menuId)
                 .orElseThrow(() -> new NotFoundException("Menu with id = " + menuId + " not found"));

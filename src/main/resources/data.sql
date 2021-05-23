@@ -22,7 +22,9 @@ VALUES (NOW(), 'RICE', '10000', '1'),
        (NOW(), 'COLA', '5000', '3'),
        (NOW(), 'TEA', '5000', '2'),
        (NOW(), 'CAKE', '5000', '2'),
-       (NOW(), 'SOUP', '15000', '3');
+       (NOW(), 'SOUP', '15000', '3'),
+       (NOW()-1, 'SOUP', '15000', '3'),
+       (NOW()-2, 'SOUP', '15000', '3');
 
 INSERT INTO VOTE (DATES, RESTAURANT_ID, USER_ID)
 VALUES (NOW(), '3', '2'),

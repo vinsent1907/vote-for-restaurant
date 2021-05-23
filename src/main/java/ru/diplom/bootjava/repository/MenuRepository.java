@@ -23,13 +23,15 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     List<Menu> findAllByRestaurantNameContainingIgnoreCaseOrderByPriceDesc(String name);
 
     @RestResource(rel = "by-restaurantId&date", path = "by-restaurantId&date")
-    List<Menu> findAllByRestaurantIdAndDateOrderByPriceDesc(int restaurantId, LocalDate date);
+    List<Menu> findAllByRestaurantIdAndDateOrderByPriceDesc(int restaurantId, @RequestParam
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate date);
 
     @RestResource(rel = "by-date", path = "by-date")
-    List<Menu> findAllByDateOrderByRestaurantDesc(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date);
+    List<Menu> findAllByDateOrderByRestaurantDesc(@RequestParam @DateTimeFormat
+            (iso = DateTimeFormat.ISO.DATE) LocalDate date);
 
     @RestResource(rel = "all-by-restaurantId", path = "all-by-restaurantId")
-    Optional<Menu> findAllByRestaurantIdOrderByDescriptionDesc(int restaurantId);
+    List<Menu> findAllByRestaurantIdOrderByDescriptionDesc(int restaurantId);
 
     @RestResource(rel = "by-restaurantId&id", path = "by-restaurantId&id")
     Optional<Menu> findByRestaurantIdAndId(int restaurantId, int id);

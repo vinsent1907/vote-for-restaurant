@@ -2,6 +2,7 @@ package ru.diplom.bootjava.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -25,6 +26,5 @@ public class Restaurant extends BaseEntity implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
     @OrderBy("price DESC")
-    @JsonManagedReference
     private List<Menu> menu;
 }

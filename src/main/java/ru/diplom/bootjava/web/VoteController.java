@@ -7,7 +7,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +19,6 @@ import ru.diplom.bootjava.model.Vote;
 import ru.diplom.bootjava.repository.RestaurantRepository;
 import ru.diplom.bootjava.repository.VoteRepository;
 import ru.diplom.bootjava.to.VoteTo;
-import ru.diplom.bootjava.util.ValidationUtil;
 import ru.diplom.bootjava.util.VoteUtil;
 import ru.diplom.bootjava.web.Assembler.VoteModelAssembler;
 
@@ -52,9 +50,9 @@ public class VoteController {
                                                     @RequestParam int restaurantId) {
         log.info("vote {} for the {} ", authUser, restaurantId);
         int userId = checkNull(authUser.getUser().getId());
-         if(voteRepository.findByDatesAndUserId(LocalDate.now(), userId).isPresent()) {
-             throw  new IllegalRequestDataException("Vote must be new");
-         }
+        if (voteRepository.findByDatesAndUserId(LocalDate.now(), userId).isPresent()) {
+            throw new IllegalRequestDataException("Vote must be new");
+        }
 
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException("Restaurant with id = " + restaurantId + " not found"));
@@ -68,14 +66,14 @@ public class VoteController {
 
     @PutMapping("/vote")
     public ResponseEntity<EntityModel<VoteTo>> update(@AuthenticationPrincipal AuthUser authUser,
-                                                    @RequestParam int restaurantId) {
+                                                      @RequestParam int restaurantId) {
         log.info("vote {} for the {} ", authUser, restaurantId);
 
         checkingPossibilityVoting(STOP_TIME);
 
         int userId = checkNull(authUser.getUser().getId());
-         Vote newVote = voteRepository.findByDatesAndUserId(LocalDate.now(), userId)
-                 .orElseThrow(()->new NotFoundException("You didn't vote today"));
+        Vote newVote = voteRepository.findByDatesAndUserId(LocalDate.now(), userId)
+                .orElseThrow(() -> new NotFoundException("You didn't vote today"));
 
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException("Restaurant with id = " + restaurantId + " not found"));

@@ -12,11 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.diplom.bootjava.AuthUser;
-import ru.diplom.bootjava.web.Assembler.AccountModelAssembler;
 import ru.diplom.bootjava.model.Role;
 import ru.diplom.bootjava.model.User;
 import ru.diplom.bootjava.repository.UserRepository;
 import ru.diplom.bootjava.util.ValidationUtil;
+import ru.diplom.bootjava.web.Assembler.AccountModelAssembler;
 
 import javax.validation.Valid;
 import java.util.EnumSet;

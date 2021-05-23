@@ -71,32 +71,32 @@ Use http basic authorization.
 `curl -s -i http://localhost:8080/api/restaurants --user admin@mail.com:admin`
 
 #### create a restaurant:
-`curl -i -X POST -H "Content-Type: application/json" -d "{\"name\": \"Late\"}" http://localhost:8080/api/restaurants/created --user admin@mail.com:admin`
+`curl -i -X POST -H "Content-Type: application/json" -d "{\"name\": \"Late\"}" http://localhost:8080/api/restaurants  --user admin@mail.com:admin`
 
 #### edit restaurant:
 `curl -i -X PUT -H "Content-Type: application/json" -d "{\"name\": \"Apelsino\"}" http://localhost:8080/api/restaurants/1 --user admin@mail.com:admin`
 
-#### a deleted restaurant:
+#### delete a restaurant:
 `curl -s -i -X DELETE http://localhost:8080/api/restaurants/1 --user user@mail.com:user --user admin@mail.com:admin`
 
 
 ### for user account:
 #### get one restaurant with the current menu:
-`http://localhost:8080/api/restaurants/1`
+`http://localhost:8080/api/restaurants/today/1`
 
 #### get all restaurant with today menu:
 `curl -s -i http://localhost:8080/api/restaurants/today --user user@mail.com:password`
 
 ## Operations with menu
 ###  for only admin account:
-#### create menu:
-`curl -i -X POST -H "Content-Type: application/json" -d "{\"date\": \"2021-05-08\", \"description\": \"Pasta\", \"price\": 5555}" http://localhost:8080/api/restaurants/1/menus/created --user admin@mail.com:admin`
+#### create a menu:
+`curl -i -X POST -H "Content-Type: application/json" -d "{\"date\": \"2021-05-08\", \"description\": \"Pasta\", \"price\": 5555}" http://localhost:8080/api/restaurants/1/menu --user admin@mail.com:admin`
 
 #### deleted menu:
-`curl -s -i -X DELETE http://localhost:8080/api/restaurants/1/menus/delete/1 --user admin@mail.com:admin`
+`curl -s -i -X DELETE http://localhost:8080/api/restaurants/1/menu/1 --user admin@mail.com:admin`
 
 #### edit menu:
-`curl -i -X PUT -H "Content-Type: application/json" -d "{\"date\": \"2021-05-08\", \"description\": \"Pasta\", \"price\": 5555}" http://localhost:8080/api/restaurants/1/menus/edit/2 --user admin@mail.com:admin`
+`curl -i -X PUT -H "Content-Type: application/json" -d "{\"date\": \"2021-05-08\", \"description\": \"Pasta\", \"price\": 5555}" http://localhost:8080/api/restaurants/1/menu/2 --user admin@mail.com:admin`
 
 
 ## Operations with vote

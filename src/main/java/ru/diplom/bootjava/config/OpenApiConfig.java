@@ -33,7 +33,7 @@ public class OpenApiConfig {
         return GroupedOpenApi.builder()
                 .group("REST API")
                 .pathsToMatch("/api/**")
-                .pathsToExclude("/api/profile/**")
+                .pathsToExclude("/api/profile/**", "/api/menus/**") //
                 .build();
     }
 }

@@ -14,6 +14,6 @@ public class MenuModelAssembler implements RepresentationModelAssembler<Menu, En
     @Override
     public EntityModel<Menu> toModel(Menu menu) {
         return EntityModel.of(menu, Link.of(linkTo(RestaurantController.class) + "/" + menu.getRestaurant().getId()
-                + "/" + "menus" + "/" + menu.getId(), "self"));
+                + "/" + "menu" + "/" + menu.getId(), "self"));
     }
 }

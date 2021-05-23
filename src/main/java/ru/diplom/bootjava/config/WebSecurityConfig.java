@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -60,12 +61,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api/account/register")
                 .anonymous()
-                .antMatchers("/api/account", "/api/votes/today", "/api/votes/vote", "/api/votes/vote/*",
-                        "/api/restaurants/today", "/api/restaurants/current",
-                        "/api/restaurants/{\\d*}/menus/{\\d*}", "/api/restaurants/{\\d*}")
+                .antMatchers("/api/account", "/api/votes/today", "/api/votes/vote", "/api/votes/vote/*")
                 .hasRole(Role.USER.name())
-                .antMatchers("/api/**")
-                .hasRole(Role.ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/api/restaurants/today", "/api/restaurants/today/*",
+                        "/api/restaurants/{\\d*}/menu/{\\d*}", "/api/restaurants/{\\d*}")
+                .hasRole(Role.USER.name())
+                .antMatchers("/api/**").hasRole(Role.ADMIN.name())
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable();
