@@ -28,7 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping(value = "/api/restaurants/{restaurantId}/menu")
 @AllArgsConstructor
 @Slf4j
-@Tag(name = "Menu Controller 2end point")
+@Tag(name = "Menu Controller")
 public class MenuController {
     private final MenuRepository menuRepository;
     private final RestaurantRepository restaurantRepository;
